@@ -815,6 +815,22 @@ button {
   font-size: 0.67rem;
   font-weight: 700;
 }
+.field-label {
+  display: inline-flex;
+  align-items: baseline;
+  min-height: 1rem;
+  gap: 0.35rem;
+}
+.field-label small {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: inherit;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
 .contact-form input,
 .contact-form textarea {
   width: 100%;
@@ -2253,5 +2269,8 @@ body::before {
 @media (max-width: 520px) {
   .project {
     min-height: 248px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
   }
 }

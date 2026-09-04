@@ -470,15 +470,23 @@ export default function Home() {
             Nombre
             <input required name="nombre" placeholder="Tu nombre" />
           </label>
-          <label>
-            Email
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="nombre@empresa.com"
-            />
-          </label>
+          <div className="form-row">
+            <label>
+              <span className="field-label">Email</span>
+              <input
+                required
+                type="email"
+                name="email"
+                placeholder="nombre@empresa.com"
+              />
+            </label>
+            <label>
+              <span className="field-label">
+                Celular <small>(opcional)</small>
+              </span>
+              <input type="tel" name="celular" placeholder="987 654 321" />
+            </label>
+          </div>
           <label>
             Proyecto
             <textarea
