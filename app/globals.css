@@ -2239,3 +2239,19 @@ body::before {
   .hero-objects i { transform: rotate(15deg) scale(0.58); }
   .hero-objects b { transform: rotate(24deg) scale(0.56); }
 }
+
+/* Give the project rail room for its content while keeping its interaction horizontal. */
+.projects-rail {
+  align-items: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.85rem;
+}
+.project {
+  min-height: 266px;
+}
+@media (max-width: 520px) {
+  .project {
+    min-height: 248px;
+  }
+}
