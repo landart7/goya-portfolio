@@ -10,25 +10,21 @@ import { useEffect, useRef, useState } from 'react';
 const services = [
   {
     code: '01',
-    mark: '▥',
     title: 'Estrategia digital',
     copy: 'Definimos dirección, audiencias y oportunidades para construir una estrategia que haga avanzar tu marca.',
   },
   {
     code: '02',
-    mark: '✦',
     title: 'Branding',
     copy: 'Creamos identidades con una voz propia, coherentes y memorables, para que tu marca tenga presencia y diferencia.',
   },
   {
     code: '03',
-    mark: '▣',
     title: 'Contenido',
     copy: 'Creamos historias, piezas y formatos pensados para captar atención, generar conexión y construir comunidad.',
   },
   {
     code: '04',
-    mark: 'ϟ',
     title: 'Performance',
     copy: 'Diseñamos y optimizamos campañas enfocadas en resultados medibles: leads, conversaciones, ventas y crecimiento.',
   },
@@ -207,6 +203,9 @@ export default function Home() {
 
   return (
     <main className={motionReady ? 'motion-ready' : ''}>
+      <div className="screen-signal" aria-hidden="true">
+        <span></span>
+      </div>
       <header ref={headerRef} className="site-header " id="inicio">
         <a className="brand" href="#inicio" aria-label="Goya, volver al inicio">
           <span>GOYA</span>
@@ -261,6 +260,7 @@ export default function Home() {
         <div className="orbit orbit-left" aria-hidden="true"></div>
         <div className="orbit orbit-right" aria-hidden="true"></div>
         <div className="hero-content">
+          <p className="hero-agency">AGENCIA DE MARKETING</p>
           <h1 id="hero-title">Ideas que se convierten en ventas.</h1>
           <p>
             Diseñamos estrategias digitales donde la creatividad, la tecnología
@@ -304,9 +304,6 @@ export default function Home() {
                 key={service.code}
               >
                 <span className="service-code">{service.code}</span>
-                <span className="service-mark" aria-hidden="true">
-                  {service.mark}
-                </span>
                 <h3>{service.title}</h3>
                 <p>{service.copy}</p>
                 <a href="#contacto" aria-label={`Consultar ${service.title}`}>
@@ -433,6 +430,12 @@ export default function Home() {
         id="nosotros"
         aria-labelledby="process-title"
       >
+        <span className="process-axis" aria-hidden="true">
+          FLOW / SIGNAL / 001
+        </span>
+        <span className="process-index" aria-hidden="true">
+          FUTURE / 004
+        </span>
         <div className="section-label reveal">Método</div>
         <h2 id="process-title" className="reveal">
           De la idea al impulso

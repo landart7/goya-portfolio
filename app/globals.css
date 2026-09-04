@@ -30,7 +30,7 @@ body {
   overflow-x: hidden;
   background: var(--ink);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Aptos, "Segoe UI", sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -1848,4 +1848,394 @@ main {
 @keyframes capability-current-flow {
   from { background-position: 200% 0; }
   to { background-position: -20% 0; }
+}
+
+/* Reference calibration: controlled light, not an always-moving effects layer. */
+body::before {
+  opacity: 0.22;
+  filter: blur(16px);
+  animation: none;
+}
+.section::before,
+.project::before,
+.capability::before,
+.capability::after {
+  display: none;
+}
+.service::before {
+  opacity: 0.08;
+  transform: none;
+  animation: none;
+}
+.service:hover::before {
+  opacity: 0.2;
+  animation: none;
+}
+.capability {
+  transition: color 220ms var(--ease-out), border-color 220ms var(--ease-out);
+}
+.capability:hover {
+  padding-inline: 0;
+  color: var(--text);
+  background-color: transparent;
+}
+.capability:hover h3,
+.capability:hover > a {
+  color: var(--cyan);
+}
+.capability:hover > a {
+  animation: none;
+}
+
+/* The page is crossed by one quiet, shared signal instead of many unrelated glows. */
+.screen-signal {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0.5;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--cyan), transparent 48%) 18%,
+    var(--cyan) 50%,
+    color-mix(in oklch, var(--cyan), transparent 48%) 82%,
+    transparent 100%
+  );
+  box-shadow: 0 0 18px color-mix(in oklch, var(--cyan), transparent 52%);
+  animation: screen-signal-scan 18s ease-in-out infinite alternate;
+}
+.screen-signal::before,
+.screen-signal::after,
+.screen-signal span {
+  content: '';
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.screen-signal::before {
+  left: 8%;
+  width: 7px;
+  height: 7px;
+  background: oklch(96% 0.018 210);
+  box-shadow: 0 0 12px 3px color-mix(in oklch, var(--cyan), transparent 46%);
+}
+.screen-signal::after {
+  right: 10%;
+  width: 4px;
+  height: 4px;
+  background: var(--cyan);
+  box-shadow: 0 0 10px 3px color-mix(in oklch, var(--cyan), transparent 52%);
+}
+.screen-signal span {
+  left: 8.4%;
+  width: min(16vw, 230px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+}
+@keyframes screen-signal-scan {
+  from { transform: translateY(14svh); }
+  to { transform: translateY(88svh); }
+}
+
+/* A brief, crisp pass of light gives the agency title a defined focal moment. */
+.hero-agency {
+  display: grid;
+  width: fit-content;
+  margin: 0 auto clamp(1.1rem, 2.2vw, 1.8rem);
+  color: var(--text);
+  font-size: clamp(1.85rem, 5vw, 4.8rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  white-space: nowrap;
+}
+.hero-agency::after {
+  content: 'AGENCIA DE MARKETING';
+  grid-area: 1 / 1;
+  color: var(--cyan);
+  clip-path: inset(0 100% 0 0);
+  filter: drop-shadow(0 0 12px color-mix(in oklch, var(--cyan), transparent 30%));
+  animation: agency-light-pass 7.5s var(--ease-out) 1.4s infinite;
+}
+@keyframes agency-light-pass {
+  0%, 58% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  61% { clip-path: inset(0 100% 0 0); opacity: 1; }
+  67% { clip-path: inset(0 0 0 0); opacity: 1; }
+  72%, 100% { clip-path: inset(0 0 0 100%); opacity: 0; }
+}
+
+/* Service tiles become an offset editorial arrangement with technical corner marks. */
+.services-grid {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.15rem;
+  align-items: start;
+}
+.service {
+  --service-shift: 0px;
+  min-height: 238px;
+  padding: 1.75rem;
+  border-color: color-mix(in oklch, var(--line), transparent 6%);
+  border-radius: 15px;
+  background: oklch(14% 0.022 212 / 0.84);
+  transform: translateY(var(--service-shift));
+  transition:
+    transform 340ms var(--ease-out),
+    border-color 240ms var(--ease-out),
+    background-color 240ms var(--ease-out),
+    box-shadow 340ms var(--ease-out);
+}
+.service::before {
+  display: none;
+}
+.service::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 22px;
+  height: 22px;
+  border-top: 1px solid color-mix(in oklch, var(--cyan), transparent 20%);
+  border-right: 1px solid color-mix(in oklch, var(--cyan), transparent 20%);
+  opacity: 0.8;
+}
+.service:nth-child(2),
+.service:nth-child(4) {
+  --service-shift: 2.35rem;
+}
+.service:nth-child(3) {
+  --service-shift: 0.8rem;
+}
+.service-code {
+  display: block;
+  margin-bottom: clamp(2.6rem, 5vw, 4.5rem);
+  font-size: 0.66rem;
+}
+.service h3 {
+  max-width: 13ch;
+  font-size: clamp(1.15rem, 1.75vw, 1.5rem);
+  line-height: 1.05;
+}
+.service p {
+  max-width: 31ch;
+  margin-top: 0.8rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.service > a {
+  top: 1.55rem;
+  right: 1.75rem;
+}
+.service:hover,
+.motion-ready .service.reveal.is-visible:hover {
+  transform: translateY(calc(var(--service-shift) - 7px));
+  border-color: color-mix(in oklch, var(--cyan), var(--line) 22%);
+  background: oklch(16% 0.035 212 / 0.98);
+  box-shadow: 0 17px 34px oklch(4% 0.01 212 / 0.26);
+}
+
+/* The method is a measured signal path rather than a standard dot timeline. */
+.process-section {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(5rem, 9vw, 8rem);
+}
+.process-axis,
+.process-index {
+  position: absolute;
+  top: 1.4rem;
+  color: color-mix(in oklch, var(--cyan), transparent 55%);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  writing-mode: vertical-rl;
+}
+.process-axis { left: 0; }
+.process-index { right: 0; }
+.process-section h2 { margin-bottom: 4.4rem; }
+.process-line {
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+.process-line::before {
+  top: 20px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--cyan), transparent 38%),
+    var(--line) 24%,
+    var(--cyan) 52%,
+    var(--line) 80%,
+    color-mix(in oklch, var(--cyan), transparent 38%)
+  );
+}
+.process-line li {
+  padding-top: 3.35rem;
+}
+.process-dot {
+  top: 0;
+  width: 42px;
+  height: 42px;
+  border-color: var(--cyan);
+  background: var(--ink);
+  box-shadow:
+    0 0 0 6px oklch(15% 0.04 212 / 0.65),
+    0 0 22px color-mix(in oklch, var(--cyan), transparent 52%);
+}
+.process-dot::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid color-mix(in oklch, var(--cyan), transparent 50%);
+  border-radius: inherit;
+}
+.process-number {
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.process-line h3 {
+  margin-top: 0.8rem;
+  font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+}
+.process-line p {
+  margin-top: 0.65rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 820px) {
+  .hero-agency {
+    font-size: clamp(1.6rem, 7vw, 2.7rem);
+    white-space: normal;
+    text-align: center;
+  }
+  .hero-agency::after { content: 'AGENCIA DE MARKETING'; }
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  .service,
+  .service:nth-child(2),
+  .service:nth-child(3),
+  .service:nth-child(4) {
+    --service-shift: 0px;
+  }
+  .process-axis,
+  .process-index { display: none; }
+  .process-line {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .process-line::before {
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: auto;
+    width: 1px;
+    height: auto;
+    display: block;
+    background: linear-gradient(
+      var(--cyan),
+      color-mix(in oklch, var(--line), transparent 18%),
+      var(--cyan)
+    );
+  }
+  .process-line li {
+    min-height: 138px;
+    padding: 3.35rem 0 0 4rem;
+  }
+  .process-dot { left: 0; }
+}
+@media (max-width: 520px) {
+  .service { min-height: 214px; padding: 1.35rem; }
+  .service-code { margin-bottom: 2.2rem; }
+  .service > a { top: 1.25rem; right: 1.35rem; }
+  .process-line li { padding-left: 3.5rem; }
+}
+
+/* Faster laser sweep: a thin field line with one moving, high-energy core. */
+.screen-signal {
+  height: 1px;
+  opacity: 0.72;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--cyan), transparent 70%) 12%,
+    color-mix(in oklch, var(--cyan), transparent 38%) 48%,
+    color-mix(in oklch, var(--cyan), transparent 70%) 88%,
+    transparent 100%
+  );
+  box-shadow: 0 8px 25px color-mix(in oklch, var(--cyan), transparent 86%);
+  animation: screen-signal-scan 7.2s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+.screen-signal::before {
+  left: 0;
+  width: clamp(120px, 18vw, 300px);
+  height: 1px;
+  border-radius: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--cyan), transparent 55%) 42%,
+    oklch(98% 0.012 210) 82%,
+    transparent
+  );
+  box-shadow: 0 0 8px color-mix(in oklch, var(--cyan), transparent 18%);
+  animation: signal-core-run 1.8s linear infinite;
+}
+.screen-signal::after {
+  display: none;
+}
+.screen-signal span {
+  left: auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: oklch(97% 0.014 210);
+  box-shadow: 0 0 11px 3px color-mix(in oklch, var(--cyan), transparent 28%);
+  animation: signal-point-run 1.8s linear infinite;
+}
+@keyframes screen-signal-scan {
+  from { transform: translateY(8svh); }
+  to { transform: translateY(92svh); }
+}
+@keyframes signal-core-run {
+  from { transform: translate3d(-100%, -50%, 0); }
+  to { transform: translate3d(100vw, -50%, 0); }
+}
+@keyframes signal-point-run {
+  from { transform: translate3d(-10px, -50%, 0); }
+  to { transform: translate3d(100vw, -50%, 0); }
+}
+
+/* On compact screens the chrome stays with the wordmark, never behind the message. */
+@media (max-width: 820px) {
+  .hero-objects {
+    top: 16%;
+    height: 180px;
+    opacity: 0.52;
+  }
+  .hero-objects i {
+    left: 73%;
+    top: 4%;
+    transform: rotate(15deg) scale(0.72);
+  }
+  .hero-objects b {
+    left: 81%;
+    top: 18%;
+    transform: rotate(24deg) scale(0.7);
+  }
+  .hero-objects em {
+    display: none;
+  }
+}
+@media (max-width: 520px) {
+  .hero-objects {
+    top: 12%;
+    height: 150px;
+    opacity: 0.44;
+  }
+  .hero-objects i { transform: rotate(15deg) scale(0.58); }
+  .hero-objects b { transform: rotate(24deg) scale(0.56); }
 }
