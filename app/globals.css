@@ -1228,8 +1228,8 @@ footer nav a:hover,
     color 280ms var(--ease-out);
 }
 .capability:hover {
-  padding-inline: 0.8rem;
   color: var(--cyan);
+  background-color: oklch(18% 0.035 212 / 0.55);
 }
 .capability-meta {
   align-self: stretch;
@@ -1686,15 +1686,28 @@ main {
   width: 16%;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(90deg, transparent, oklch(82% 0.16 208 / 0.16), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(82% 0.16 208 / 0.16),
+    transparent
+  );
   filter: blur(8px);
   transform: skewX(-20deg) translateX(-200%);
   animation: capability-light-trace 8.5s var(--ease-out) infinite;
 }
-.capability:nth-child(2)::before { animation-delay: -1.7s; }
-.capability:nth-child(3)::before { animation-delay: -3.4s; }
-.capability:nth-child(4)::before { animation-delay: -5.1s; }
-.capability:nth-child(5)::before { animation-delay: -6.8s; }
+.capability:nth-child(2)::before {
+  animation-delay: -1.7s;
+}
+.capability:nth-child(3)::before {
+  animation-delay: -3.4s;
+}
+.capability:nth-child(4)::before {
+  animation-delay: -5.1s;
+}
+.capability:nth-child(5)::before {
+  animation-delay: -6.8s;
+}
 .capability > * {
   position: relative;
   z-index: 1;
@@ -1706,15 +1719,36 @@ main {
   animation: capability-arrow-flash 680ms var(--ease-out) both;
 }
 @keyframes capability-light-trace {
-  0%, 52% { opacity: 0; transform: skewX(-20deg) translateX(-200%); }
-  60% { opacity: 0.95; }
-  76% { opacity: 0; transform: skewX(-20deg) translateX(1020%); }
-  100% { opacity: 0; transform: skewX(-20deg) translateX(1020%); }
+  0%,
+  52% {
+    opacity: 0;
+    transform: skewX(-20deg) translateX(-200%);
+  }
+  60% {
+    opacity: 0.95;
+  }
+  76% {
+    opacity: 0;
+    transform: skewX(-20deg) translateX(1020%);
+  }
+  100% {
+    opacity: 0;
+    transform: skewX(-20deg) translateX(1020%);
+  }
 }
 @keyframes capability-arrow-flash {
-  0% { color: var(--cyan); transform: translateX(0); }
-  48% { color: var(--text); transform: translateX(8px); }
-  100% { color: var(--cyan); transform: translateX(0); }
+  0% {
+    color: var(--cyan);
+    transform: translateX(0);
+  }
+  48% {
+    color: var(--text);
+    transform: translateX(8px);
+  }
+  100% {
+    color: var(--cyan);
+    transform: translateX(0);
+  }
 }
 @keyframes ambient-light-drift {
   0% {
@@ -1765,4 +1799,53 @@ main {
   100% {
     transform: translateX(150%);
   }
+}
+
+/* Stable capability effect: a travelling signal, never a size change. */
+.capability {
+  transition: color 280ms var(--ease-out), background-color 280ms var(--ease-out);
+}
+.capability::before {
+  top: 50%;
+  bottom: auto;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  opacity: 0;
+  background: var(--cyan);
+  border-radius: 50%;
+  filter: none;
+  box-shadow: 0 0 10px var(--cyan), 0 0 28px color-mix(in oklch, var(--cyan), transparent 24%);
+  transform: translate3d(-34px, -50%, 0);
+  animation: capability-signal-run 7.5s var(--ease-out) infinite;
+}
+.capability::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0.78;
+  background: linear-gradient(90deg, transparent 0%, transparent 35%, var(--cyan) 48%, oklch(96% 0.02 210) 50%, var(--cyan) 52%, transparent 65%, transparent 100%);
+  background-size: 220% 100%;
+  animation: capability-current-flow 5.8s linear infinite;
+}
+.capability:nth-child(2)::before { animation-delay: -1.5s; }
+.capability:nth-child(3)::before { animation-delay: -3s; }
+.capability:nth-child(4)::before { animation-delay: -4.5s; }
+.capability:nth-child(5)::before { animation-delay: -6s; }
+.capability:hover::before { animation-duration: 1.7s; }
+.capability:hover::after { animation-duration: 1.4s; opacity: 1; }
+@keyframes capability-signal-run {
+  0%, 47% { opacity: 0; transform: translate3d(-34px, -50%, 0); }
+  52% { opacity: 1; }
+  72% { opacity: 0; transform: translate3d(calc(100vw - 80px), -50%, 0); }
+  100% { opacity: 0; transform: translate3d(calc(100vw - 80px), -50%, 0); }
+}
+@keyframes capability-current-flow {
+  from { background-position: 200% 0; }
+  to { background-position: -20% 0; }
 }
