@@ -143,7 +143,9 @@ const revealStyle = (delay: number): CSSProperties =>
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [formStatus, setFormStatus] = useState<
+    'idle' | 'sending' | 'success' | 'error'
+  >('idle');
   const [motionReady, setMotionReady] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -184,9 +186,32 @@ export default function Home() {
     return () => document.removeEventListener('pointerdown', closeMenuOutside);
   }, [menuOpen]);
 
-  function submitForm(event: FormEvent<HTMLFormElement>) {
+  async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: formData.get('nombre'),
+          email: formData.get('email'),
+          celular: formData.get('celular'),
+          proyecto: formData.get('proyecto'),
+        }),
+      });
+
+      if (!response.ok) throw new Error('No se pudo enviar la consulta.');
+
+      form.reset();
+      setFormStatus('success');
+    } catch {
+      setFormStatus('error');
+    }
   }
 
   function handleHeroMotion(event: ReactPointerEvent<HTMLElement>) {
@@ -496,13 +521,22 @@ export default function Home() {
               placeholder="Cuéntanos qué quieres construir"
             ></textarea>
           </label>
-          {submitted && (
+          {formStatus === 'success' && (
             <p role="status" className="success">
               Gracias. Recibimos tu consulta y te contactaremos pronto.
             </p>
           )}
-          <button className="button button-primary" type="submit">
-            Enviar consulta <Arrow />
+          {formStatus === 'error' && (
+            <p role="alert" className="form-error">
+              No se pudo enviar tu consulta. Inténtalo nuevamente.
+            </p>
+          )}
+          <button
+            className="button button-primary"
+            type="submit"
+            disabled={formStatus === 'sending'}
+          >
+            {formStatus === 'sending' ? 'Enviando…' : 'Enviar consulta'} <Arrow />
           </button>
         </form>
       </section>

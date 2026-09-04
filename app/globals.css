@@ -867,6 +867,18 @@ button {
   border-radius: 6px;
   font-size: 0.72rem;
 }
+.form-error {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  color: oklch(91% 0.03 28);
+  background: oklch(28% 0.07 28);
+  border-radius: 6px;
+  font-size: 0.72rem;
+}
+.contact-form .button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
 footer {
   width: min(100% - 3rem, 1240px);
   margin: 0 auto;
