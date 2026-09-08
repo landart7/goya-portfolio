@@ -1,14 +1,14 @@
 @import 'tailwindcss';
 
 :root {
-  --ink: oklch(11% 0.018 212);
-  --surface: oklch(15% 0.022 212);
-  --surface-raised: oklch(18% 0.024 212);
-  --line: oklch(33% 0.045 213);
-  --text: oklch(94% 0.012 210);
-  --muted: oklch(70% 0.025 211);
-  --cyan: oklch(83% 0.156 208);
-  --blue: oklch(59% 0.22 252);
+  --ink: oklch(10% 0.022 178);
+  --surface: oklch(14% 0.027 178);
+  --surface-raised: oklch(17% 0.03 178);
+  --line: oklch(33% 0.052 175);
+  --text: oklch(94% 0.016 165);
+  --muted: oklch(70% 0.036 166);
+  --cyan: oklch(83% 0.147 165);
+  --blue: oklch(59% 0.17 190);
   --success: oklch(78% 0.16 160);
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
@@ -2285,4 +2285,68 @@ body::before {
   .form-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* The supplied chrome lettering becomes the singular hero artifact. */
+.hero-logo-frame {
+  width: min(61vw, 650px);
+  margin: clamp(1.8rem, 4vw, 3.5rem) auto 0;
+  font-size: initial;
+  line-height: 0;
+  text-shadow: none;
+  transform: none;
+}
+.hero-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 22px oklch(4% 0.02 178 / 0.58))
+    drop-shadow(0 0 16px oklch(76% 0.12 165 / 0.19));
+}
+
+/* Low-contrast binary telemetry adds depth without becoming a second layout. */
+.matrix-code {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: oklch(68% 0.11 164 / 0.16);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(0.52rem, 0.7vw, 0.66rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-shadow: 0 0 8px oklch(68% 0.11 164 / 0.14);
+}
+.matrix-stream {
+  position: absolute;
+  top: -35vh;
+  height: 170vh;
+  writing-mode: vertical-rl;
+  word-break: break-all;
+  animation: matrix-stream-fall 21s linear infinite;
+}
+.matrix-stream-one { left: 8%; animation-delay: -4s; }
+.matrix-stream-two { left: 32%; animation-delay: -15s; opacity: 0.68; }
+.matrix-stream-three { left: 68%; animation-delay: -8s; opacity: 0.52; }
+.matrix-stream-four { left: 91%; animation-delay: -18s; opacity: 0.75; }
+@keyframes matrix-stream-fall {
+  from { transform: translateY(-24vh); }
+  to { transform: translateY(34vh); }
+}
+@media (max-width: 820px) {
+  .hero-logo-frame {
+    width: min(70vw, 480px);
+    margin-top: 1.8rem;
+  }
+  .matrix-stream-two,
+  .matrix-stream-four { display: none; }
+}
+@media (max-width: 520px) {
+  .hero-logo-frame {
+    width: min(78vw, 360px);
+    margin-top: 1.5rem;
+  }
+  .matrix-stream-three { left: 80%; }
 }

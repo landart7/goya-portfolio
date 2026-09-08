@@ -5,6 +5,7 @@ import type {
   FormEvent,
   PointerEvent as ReactPointerEvent,
 } from 'react';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 const services = [
@@ -231,6 +232,20 @@ export default function Home() {
       <div className="screen-signal" aria-hidden="true">
         <span></span>
       </div>
+      <div className="matrix-code" aria-hidden="true">
+        <span className="matrix-stream matrix-stream-one">
+          01001101011010010100111001010011010100100101000101101001
+        </span>
+        <span className="matrix-stream matrix-stream-two">
+          11001010010110100110100101001101010110010010101101001011
+        </span>
+        <span className="matrix-stream matrix-stream-three">
+          00110101101001010011010110100101001011010010110100101101
+        </span>
+        <span className="matrix-stream matrix-stream-four">
+          10100101101001011010010100110101101001010010110100101101
+        </span>
+      </div>
       <header ref={headerRef} className="site-header " id="inicio">
         <a className="brand" href="#inicio" aria-label="Goya, volver al inicio">
           <span>GOYA</span>
@@ -274,8 +289,16 @@ export default function Home() {
         <div className="hero-aura aura-one"></div>
         <div className="hero-aura aura-two"></div>
         <p className="hero-kicker">ESTRATEGIA · CREATIVIDAD · RESULTADOS</p>
-        <div className="hero-word" aria-hidden="true">
-          GOYA
+        <div className="hero-word hero-logo-frame">
+          <Image
+            className="hero-logo"
+            src="/images/logo_goya.png"
+            alt="Goya"
+            width={1774}
+            height={887}
+            priority
+            sizes="(max-width: 520px) 78vw, (max-width: 820px) 70vw, 650px"
+          />
         </div>
         <div className="hero-objects" aria-hidden="true">
           <i></i>
